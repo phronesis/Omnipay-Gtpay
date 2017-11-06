@@ -1,0 +1,18 @@
+{
+    "name": "davidumoh/omnipay-gtpay",
+    "description": "A Gtpay Driver for PHP League Omnipay",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Umoh",
+            "email": "umohdavid@gmail.com"
+        }
+    ],
+    "require": {
+        "omnipay/common": "^2.5"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    }
+}
