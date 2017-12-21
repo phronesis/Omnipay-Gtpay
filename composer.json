@@ -18,7 +18,7 @@
     "autoload": {
         "psr-4":{
             "DavidUmoh\\GtPay\\" : "src/",
-            "DavidUmoh\\GtPay\\Tests" : "tests/"
+            "DavidUmoh\\GtPay\\Tests\\" : "tests/"
         }
 
     }
