@@ -1,13 +1,13 @@
 <?php
 
-namespace Omnipay\GtPay;
+namespace Omnipay\Gtpay;
 
-use Omnipay\GtPay\Message\Data;
+use Omnipay\Gtpay\Message\Data;
 use \Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway{
 
-    const GATEWAY_NAME = "GtPay";
+    const GATEWAY_NAME = "Gtpay";
 
     const GATEWAY_WEBPAY = 'webpay';
 
