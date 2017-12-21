@@ -1,5 +1,5 @@
 <?php
-namespace DavidUmoh\GtPay\Message;
+namespace Omnipay\Gtpay\Message;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
 

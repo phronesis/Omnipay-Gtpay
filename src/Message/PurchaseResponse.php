@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidUmoh\GtPay\Message;
+namespace Omnipay\Gtpay\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;

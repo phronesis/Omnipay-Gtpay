@@ -1,10 +1,10 @@
 <?php
-namespace DavidUmoh\GtPay\Tests;
+namespace DavidUmoh\Gtpay\Tests;
 
-use DavidUmoh\GtPay\Gateway;
-use DavidUmoh\GtPay\Message\Data;
-use DavidUmoh\GtPay\Message\PurchaseRequest;
-use DavidUmoh\GtPay\Message\PurchaseResponse;
+use DavidUmoh\Gtpay\Gateway;
+use DavidUmoh\Gtpay\Message\Data;
+use DavidUmoh\Gtpay\Message\PurchaseRequest;
+use DavidUmoh\Gtpay\Message\PurchaseResponse;
 use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase{

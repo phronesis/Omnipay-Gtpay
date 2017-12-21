@@ -1,13 +1,13 @@
 <?php
 
-namespace DavidUmoh\GtPay;
+namespace Omnipay\GtPay;
 
-use DavidUmoh\GtPay\Message\Data;
+use Omnipay\GtPay\Message\Data;
 use \Omnipay\Common\AbstractGateway;
 
 class Gateway extends AbstractGateway{
 
-    const GATEWAY_NAME = "Gtpay";
+    const GATEWAY_NAME = "GtPay";
 
     const GATEWAY_WEBPAY = 'webpay';
 
@@ -105,13 +105,13 @@ class Gateway extends AbstractGateway{
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\DavidUmoh\GtPay\Message\PurchaseRequest',$parameters);
+        return $this->createRequest('\Omnipay\Gtpay\Message\PurchaseRequest',$parameters);
     }
 
 
     public function completePurchase(array $options = array())
     {
-        return $this->createRequest('\DavidUmoh\GtPay\Message\CompletePurchaseRequest',$options);
+        return $this->createRequest('\Omnipay\Gtpay\Message\CompletePurchaseRequest',$options);
     }
 
     /**

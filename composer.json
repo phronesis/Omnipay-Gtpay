@@ -17,8 +17,8 @@
     },
     "autoload": {
         "psr-4":{
-            "DavidUmoh\\GtPay\\" : "src/",
-            "DavidUmoh\\GtPay\\Tests\\" : "tests/"
+            "Omnipay\\GtPay\\" : "src/",
+            "Omnipay\\GtPay\\Tests\\" : "tests/"
         }
 
     }
