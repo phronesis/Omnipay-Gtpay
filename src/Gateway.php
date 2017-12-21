@@ -13,7 +13,7 @@ class Gateway extends AbstractGateway{
 
     const GATEWAY_BANK = 'ibank';
 
-    //https://gtweb2.gtbank.com/GTPay/tranx.aspx - demo
+    // - demo
 
     public function getName()
     {
@@ -98,6 +98,7 @@ class Gateway extends AbstractGateway{
         return $this->getParameter(Data::GATEWAY_FIRST);
     }
 
+
     /**
      * @param array $parameters
      * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
@@ -113,7 +114,13 @@ class Gateway extends AbstractGateway{
         return $this->createRequest('\DavidUmoh\GtPay\Message\CompletePurchaseRequest',$options);
     }
 
-
+    /**
+     * Generates transaction ID. Payment methods with a different need can extend this
+     * @return string  Transaction reference delivered
+     */
+    public function generateTransactionId() {
+        return str_pad(time(), 14, '0', STR_PAD_LEFT);
+    }
 
 
 }

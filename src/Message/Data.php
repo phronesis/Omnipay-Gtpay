@@ -31,26 +31,25 @@ class Data {
     const HASH_KEY = 'hash_key';
 
 
-    private $paramMap = [
-        'merchant_id'=>'gtpay_mert_id',
-        'transaction_id'=>'gtpay_tranx_id',
-        'transaction_memo'=>'gtpay_tranx_memo',
-        'transaction_amount'=>'gtpay_tranx_amt',
-        'transaction_currency'=>'gtpay_tranx_curr',
-        'notify_url'=>'gtpay_tranx_noti_url',
-        'gateway_first'=>'gtpay_gway_first',
-        'echo_data'=>'gtpay_echo_data',
-        'customer_name'=>'gtpay_cust_name',
-        'customer_id'=>'gtpay_cust_id',
-        'hash'=>'gtpay_hash',
-        'gateway_name'=>'gtpay_gway_name',
-        'hash_key'=>'hash_key'
-    ];
-
-
-    public function getParamMatch(){
-        return $this->paramMap;
+    static function getParamMatch(){
+        return [
+            'merchant_id'=>'gtpay_mert_id',
+            'transaction_id'=>'gtpay_tranx_id',
+            'transaction_memo'=>'gtpay_tranx_memo',
+            'transaction_amount'=>'gtpay_tranx_amt',
+            'transaction_currency'=>'gtpay_tranx_curr',
+            'notify_url'=>'gtpay_tranx_noti_url',
+            'gateway_first'=>'gtpay_gway_first',
+            'echo_data'=>'gtpay_echo_data',
+            'customer_name'=>'gtpay_cust_name',
+            'customer_id'=>'gtpay_cust_id',
+            'hash'=>'gtpay_hash',
+            'gateway_name'=>'gtpay_gway_name',
+            'hash_key'=>'hash_key'
+        ];
     }
+
+
 
 }
 

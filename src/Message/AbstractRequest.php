@@ -8,7 +8,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      * Generates transaction ID. Payment methods with a different need can extend this
      * @return string  Transaction reference delivered
      */
-    public function generateTransactionId() {
+    static function generateTransactionId() {
         return str_pad(time(), 14, '0', STR_PAD_LEFT);
     }
 
@@ -96,7 +96,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
     }
 
     public function getTransactionHash(){
+        //gtpay_mert_id,gtpay_tranx_id,gtpay_tranx_amt,gtpay_tranx_curr,gtpay_cust_id,gtpay_tranx_noti_url,hash
 
+        $rawString = $this->getMerchantId().
+            $this->getTransactionId().
+            $this->getAmountInteger().
+            $this->getCurrencyNumeric().
+            $this->getCustomerId().
+            $this->getNotifyUrl().
+            $this->getHashKey();
+        $hash = hash('sha512',$rawString);
+        return $hash;
     }
 
     /**
@@ -130,5 +140,6 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
     public function getGatewayFirst(){
         return $this->getParameter(Data::GATEWAY_FIRST);
     }
+
 
 }
