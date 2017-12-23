@@ -3,6 +3,8 @@ namespace Omnipay\Gtpay\Message;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
 
+    const DEMO_WEBSERVICE_URL = "https://gtweb2.gtbank.com/GTPayService/gettransactionstatus.json";
+    const LIVE_WEBSERVICE_URL = "https://ibank.gtbank.com/GTPayService/gettransactionstatus.json";
 
     /**
      * Generates transaction ID. Payment methods with a different need can extend this
@@ -139,6 +141,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      */
     public function getGatewayFirst(){
         return $this->getParameter(Data::GATEWAY_FIRST);
+    }
+
+
+    public function getWebserviceUrl(){
+        return $this->getTestMode()?self::DEMO_WEBSERVICE_URL:self::LIVE_WEBSERVICE_URL;
     }
 
 

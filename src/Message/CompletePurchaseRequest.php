@@ -1,15 +1,143 @@
 <?php
 namespace Omnipay\Gtpay\Message;
 
+use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Gtpay\Exception\FailedPaymentException;
+use Omnipay\Gtpay\Exception\ValidationException;
+
 class CompletePurchaseRequest extends AbstractRequest{
+
+    const CANCELED_GATEWAY_CODE = 'Z6';
+
+    const SUCCESS_CODE = '00';
 
     public function getData()
     {
-        // TODO: Implement getData() method.
+        $requestBody = $this->httpRequest->request->all();
+        if(empty($requestBody)){
+            throw new InvalidRequestException('No Request Body Found');
+        }
+
+        $this->preWebserviceValidation($requestBody);
+        $gatewayResponse = $this->queryGateway();
+        $this->postWebserviceValidation($gatewayResponse);
+        $this->setTransactionReference($gatewayResponse['MerchantReference']);
+        return array_merge($requestBody,$gatewayResponse);
     }
 
     public function sendData($data)
     {
-        // TODO: Implement sendData() method.
+        return new CompletePurchaseResponse($this,$data);
+    }
+
+
+    /**
+     * @param $data
+     * @throws FailedPaymentException
+     * @throws ValidationException
+     */
+    private function preWebserviceValidation($data){
+        $statusCode = $data['gtpay_tranx_status_code'];
+        if(Validator::compareStrings(self::CANCELED_GATEWAY_CODE,$statusCode)){
+            throw $this->determineException("Customer Cancellation",$statusCode);
+        }
+        if(!Validator::verifyHashValue($data['gtpay_full_verification_hash'],$this->getFullVerificationHash($statusCode))){
+            $msg = "Data incompatibility reported. Please contact support";
+            throw $this->determineException($msg,$statusCode);
+        }
+        if(!Validator::compareStrings($data['gtpay_cust_id'],$this->getCustomerId())){
+            $msg = "Received Customer Id: {$data['gtpay_cust_id']} does not match expected Customer Id";
+            throw $this->determineException($msg,$statusCode);
+        }
+        if(!Validator::compareStrings($data['site_redirect_url'],$this->getNotifyUrl())){
+            $this->determineException("Redirect Url is wrong.",$statusCode);
+        }
+    }
+
+    protected function postWebserviceValidation($data){
+
+        if(isset($data['TransactionCurrency'])){
+            if(!$this->validation->compareStrings($data['TransactionCurrency'],$this->getCurrency())){
+                throw new ValidationException("Transaction currency does not match expected currency.");
+            }
+        }
+
+        if(!Validator::compareStrings($data['MertID'],$this->getMerchantId())){
+            throw new ValidationException("Wrong Merchant ID returned.");
+        }
+        if(!Validator::verifyCorrectAmount($data['Amount'],$this->getAmountInteger())){
+            throw new ValidationException(
+                sprintf("Incorrect Amount Paid. Expected Amount: %d, Amount Paid: %d",
+                    $this->convertIntegerAmount($this->getAmountInteger()),
+                    $this->convertIntegerAmount($data['Amount']))
+            );
+        }
+    }
+
+    /**
+     * Distinguishes between exceptions that have a failed status code from the gateway
+     * and exceptions when the status code indicates success. The later may indicate fraud.
+     * For validation exception, you may want to consider sending an email to admin as further investigation
+     * may be required
+     * @param $msg
+     * @param $statusCode
+     * @return FailedPaymentException|ValidationException
+     */
+    private function determineException($msg,$statusCode){
+        if($this->hasSuccessCode($statusCode)){
+            return new ValidationException($msg);
+        }else{
+            return new FailedPaymentException($msg);
+        }
+    }
+
+
+    private function hasSuccessCode($statusCode){
+        return Validator::compareStrings($statusCode,self::SUCCESS_CODE);
+    }
+
+    public function getFullVerificationHash($statusCode){
+        $rawString = $this->getTransactionId().
+            $this->getAmountInteger().
+            $statusCode.
+            $this->getCurrency().
+            $this->getHashKey();
+        return hash('sha512',$rawString);
+    }
+
+    public function queryGateway(){
+        $param = [
+            'tranxid' => $this->getTransactionId(),
+            'amount' => $this->getAmountInteger(),
+            'mertid' => $this->getMerchantId(),
+            'hash'=>$this->getVerificationHash()
+        ];
+        $response = $this->httpClient->get($this->getWebserviceUrl(),null,
+            ['query'=>$param,'read_timeout'=>60])->send();
+
+        if($response->getStatusCode() !== 200){
+            throw new InvalidResponseException();
+        }
+        $body = (string) $response->getBody();
+        return json_decode($body,true);
+    }
+
+    private function getVerificationHash(){
+        $hashString = $this->getMerchantId() . $this->getTransactionId() . $this->getHashKey();
+        return hash('sha512',$hashString);
+    }
+
+    public function formatIntegerAmount($integerAmount){
+        return $this->getCurrency().' '.$this->convertIntegerAmount($integerAmount);
+    }
+
+    public function convertIntegerAmount($integerAmount){
+        return $integerAmount/$this->getCurrencyDecimalFactor();
+    }
+
+    private function getCurrencyDecimalFactor()
+    {
+        return pow(10, $this->getCurrencyDecimalPlaces());
     }
 }
