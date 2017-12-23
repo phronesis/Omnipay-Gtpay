@@ -9,7 +9,7 @@ class Validator {
         return self::compareStrings($expectedRef,$returnedRef);
     }
 
-    public function compareStrings($one,$two){
+    static function compareStrings($one,$two){
         return strnatcasecmp($one,$two) === 0;
     }
 
@@ -27,7 +27,8 @@ class Validator {
     static function verifyCorrectAmount($gatewayAmount,$dueAmount) {
         $gatewayAmount = floatval($gatewayAmount);
         $dueAmount = floatval($dueAmount);
-        return ($gatewayAmount === $dueAmount);
+
+        return abs($dueAmount - $gatewayAmount)< 0.0001;
     }
 
 
