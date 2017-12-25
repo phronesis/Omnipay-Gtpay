@@ -114,13 +114,4 @@ class Gateway extends AbstractGateway{
         return $this->createRequest('\Omnipay\Gtpay\Message\CompletePurchaseRequest',$options);
     }
 
-    /**
-     * Generates transaction ID. Payment methods with a different need can extend this
-     * @return string  Transaction reference delivered
-     */
-    public function generateTransactionId() {
-        return str_pad(time(), 14, '0', STR_PAD_LEFT);
-    }
-
-
 }

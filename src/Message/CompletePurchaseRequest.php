@@ -39,9 +39,15 @@ class CompletePurchaseRequest extends AbstractRequest{
      */
     private function preWebserviceValidation($data){
         $statusCode = $data['gtpay_tranx_status_code'];
+
+        if(!Validator::validateTransactionRef($this->getTransactionId(),$data['gtpay_tranx_id'])){
+            throw $this->determineException(sprintf("Invalid Transaction ref: %s",$data['gtpay_tranx_id']),$statusCode);
+        }
+
         if(Validator::compareStrings(self::CANCELED_GATEWAY_CODE,$statusCode)){
             throw $this->determineException("Customer Cancellation",$statusCode);
         }
+
         if(!Validator::verifyHashValue($data['gtpay_full_verification_hash'],$this->getFullVerificationHash($statusCode))){
             $msg = "Data incompatibility reported. Please contact support";
             throw $this->determineException($msg,$statusCode);
@@ -51,7 +57,7 @@ class CompletePurchaseRequest extends AbstractRequest{
             throw $this->determineException($msg,$statusCode);
         }
         if(!Validator::compareStrings($data['site_redirect_url'],$this->getNotifyUrl())){
-            $this->determineException("Redirect Url is wrong.",$statusCode);
+            throw $this->determineException("Redirect Url is wrong.",$statusCode);
         }
     }
 
@@ -68,9 +74,9 @@ class CompletePurchaseRequest extends AbstractRequest{
         }
         if(!Validator::verifyCorrectAmount($data['Amount'],$this->getAmountInteger())){
             throw new ValidationException(
-                sprintf("Incorrect Amount Paid. Expected Amount: %d, Amount Paid: %d",
-                    $this->convertIntegerAmount($this->getAmountInteger()),
-                    $this->convertIntegerAmount($data['Amount']))
+                sprintf("Incorrect Amount Paid. Expected Amount: %s, Amount Paid: %s",
+                    $this->formatIntegerAmount($this->getAmountInteger()),
+                    $this->formatIntegerAmount($data['Amount']))
             );
         }
     }
@@ -129,7 +135,7 @@ class CompletePurchaseRequest extends AbstractRequest{
     }
 
     public function formatIntegerAmount($integerAmount){
-        return $this->getCurrency().' '.$this->convertIntegerAmount($integerAmount);
+        return $this->getCurrency().' '.number_format($this->convertIntegerAmount($integerAmount),$this->getCurrencyDecimalPlaces());
     }
 
     public function convertIntegerAmount($integerAmount){
