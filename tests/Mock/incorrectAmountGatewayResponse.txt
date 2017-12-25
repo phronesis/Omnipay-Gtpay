@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+"Amount": "5000000",
+"MerchantReference": "FBN|WEB|WDM|21-12-2017|330132",
+"MertID": "17",
+"ResponseCode": "00",
+"ResponseDescription": "Approved by Financial Institution"
+}
