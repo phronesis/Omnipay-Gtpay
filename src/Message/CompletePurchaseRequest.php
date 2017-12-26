@@ -16,14 +16,14 @@ class CompletePurchaseRequest extends AbstractRequest{
     public function getData()
     {
         $requestBody = $this->httpRequest->request->all();
-        $this->response = $requestBody;
+        $this->responseBody = $requestBody;
         if(empty($requestBody)){
             throw new InvalidRequestException('No Request Body Found');
         }
 
         $this->preWebserviceValidation($requestBody);
         $gatewayResponse = $this->queryGateway();
-        $this->responseBody = $this->mergeReponse($gatewayResponse);
+        $this->responseBody = $this->mergeResponse($gatewayResponse);
         $this->postWebserviceValidation($gatewayResponse);
         $this->setTransactionReference($gatewayResponse['MerchantReference']);
         return $this->responseBody;
@@ -67,7 +67,7 @@ class CompletePurchaseRequest extends AbstractRequest{
     protected function postWebserviceValidation($data){
 
         if(isset($data['TransactionCurrency'])){
-            if(!$this->validation->compareStrings($data['TransactionCurrency'],$this->getCurrency())){
+            if(!Validator::compareStrings($data['TransactionCurrency'],$this->getCurrency())){
                 throw new ValidationException("Transaction currency does not match expected currency.",
                     0,null,$this->responseBody);
             }
@@ -152,8 +152,10 @@ class CompletePurchaseRequest extends AbstractRequest{
         return pow(10, $this->getCurrencyDecimalPlaces());
     }
 
-    private function mergeReponse($newResponse){
+    private function mergeResponse($newResponse){
         $responseBody = $this->responseBody;
+        if(empty($responseBody)) return $newResponse;
         return array_merge($responseBody,$newResponse);
+
     }
 }

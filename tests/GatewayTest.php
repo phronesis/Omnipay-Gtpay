@@ -186,7 +186,8 @@ class GatewayTest extends GatewayTestCase{
     public function postWebserviceValidationDataProvider(){
         return [
             'wrong Amount Paid'=>['incorrectAmountGatewayResponse.txt','Incorrect Amount Paid. Expected Amount: NGN 70,000.00, Amount Paid: NGN 50,000.00'],
-            'wrong Merchant ID'=>['wrongMerchantIdResponse.txt','Wrong Merchant ID returned']
+            'wrong Merchant ID'=>['wrongMerchantIdResponse.txt','Wrong Merchant ID returned'],
+            'wrong Currency'=>['wrongCurrencyGatewayResponse.txt','Transaction currency does not match expected currency.']
         ];
     }
 
