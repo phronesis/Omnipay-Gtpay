@@ -12,18 +12,21 @@ class CompletePurchaseRequest extends AbstractRequest{
 
     const SUCCESS_CODE = '00';
 
+    private $responseBody;
     public function getData()
     {
         $requestBody = $this->httpRequest->request->all();
+        $this->response = $requestBody;
         if(empty($requestBody)){
             throw new InvalidRequestException('No Request Body Found');
         }
 
         $this->preWebserviceValidation($requestBody);
         $gatewayResponse = $this->queryGateway();
+        $this->responseBody = $this->mergeReponse($gatewayResponse);
         $this->postWebserviceValidation($gatewayResponse);
         $this->setTransactionReference($gatewayResponse['MerchantReference']);
-        return array_merge($requestBody,$gatewayResponse);
+        return $this->responseBody;
     }
 
     public function sendData($data)
@@ -65,18 +68,20 @@ class CompletePurchaseRequest extends AbstractRequest{
 
         if(isset($data['TransactionCurrency'])){
             if(!$this->validation->compareStrings($data['TransactionCurrency'],$this->getCurrency())){
-                throw new ValidationException("Transaction currency does not match expected currency.");
+                throw new ValidationException("Transaction currency does not match expected currency.",
+                    0,null,$this->responseBody);
             }
         }
 
         if(!Validator::compareStrings($data['MertID'],$this->getMerchantId())){
-            throw new ValidationException("Wrong Merchant ID returned.");
+            throw new ValidationException("Wrong Merchant ID returned.",0,null,$this->responseBody);
         }
         if(!Validator::verifyCorrectAmount($data['Amount'],$this->getAmountInteger())){
             throw new ValidationException(
                 sprintf("Incorrect Amount Paid. Expected Amount: %s, Amount Paid: %s",
                     $this->formatIntegerAmount($this->getAmountInteger()),
-                    $this->formatIntegerAmount($data['Amount']))
+                    $this->formatIntegerAmount($data['Amount'])),
+                0,null,$this->responseBody
             );
         }
     }
@@ -92,9 +97,9 @@ class CompletePurchaseRequest extends AbstractRequest{
      */
     private function determineException($msg,$statusCode){
         if($this->hasSuccessCode($statusCode)){
-            return new ValidationException($msg);
+            return new ValidationException($msg,0,null,$this->responseBody);
         }else{
-            return new FailedPaymentException($msg);
+            return new FailedPaymentException($msg,0,null,$this->responseBody);
         }
     }
 
@@ -145,5 +150,10 @@ class CompletePurchaseRequest extends AbstractRequest{
     private function getCurrencyDecimalFactor()
     {
         return pow(10, $this->getCurrencyDecimalPlaces());
+    }
+
+    private function mergeReponse($newResponse){
+        $responseBody = $this->responseBody;
+        return array_merge($responseBody,$newResponse);
     }
 }
