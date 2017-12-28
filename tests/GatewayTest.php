@@ -6,6 +6,7 @@ use Omnipay\Gtpay\Exception\FailedPaymentException;
 use Omnipay\Gtpay\Exception\ValidationException;
 use Omnipay\Gtpay\Gateway;
 use Omnipay\Gtpay\Message\CompletePurchaseRequest;
+use Omnipay\Gtpay\Message\CompletePurchaseResponse;
 use Omnipay\Gtpay\Message\Data;
 use Omnipay\Gtpay\Message\PurchaseResponse;
 use Omnipay\Tests\GatewayTestCase;
@@ -124,7 +125,8 @@ class GatewayTest extends GatewayTestCase{
 
         $this->setMockHttpResponse($mockFile);
         $this->setExpectedException(ValidationException::class,$exceptionMsg);
-        $this->gateway->completePurchase($this->options)->send();
+        $response = $this->gateway->completePurchase($this->options)->send();
+        $response->isSuccessful();
     }
 
     /**
@@ -132,12 +134,16 @@ class GatewayTest extends GatewayTestCase{
      * @param $successResponse
      * @param $exceptionMsg
      * @param $exceptionClass
+     *
      */
     public function testPreWebserviceValidation($successResponse, $exceptionMsg,$exceptionClass){
         $this->getHttpRequest()->initialize([],$successResponse);
 
+        $this->setMockHttpResponse('emptyGatewayQuery.txt');
+
         $this->setExpectedException($exceptionClass,$exceptionMsg);
-        $this->gateway->completePurchase($this->options)->send();
+        $response = $this->gateway->completePurchase($this->options)->send();
+        $response->isSuccessful();
     }
 
     public function testEmptyResponse(){
@@ -153,11 +159,12 @@ class GatewayTest extends GatewayTestCase{
                     'gtpay_tranx_id'=>'00000345412343'
                 ]),
                 'Invalid Transaction ref: 00000345412343',
-                ValidationException::class
+                ValidationException::class,
+                false
             ],
             'Canceled Gateway Code'=>[
                 $this->getSuccessResponse([
-                    'gtpay_tranx_status_code'=>CompletePurchaseRequest::CANCELED_GATEWAY_CODE
+                    'gtpay_tranx_status_code'=>CompletePurchaseResponse::CANCELED_GATEWAY_CODE
                 ]),
                 'Customer Cancellation',
                 FailedPaymentException::class

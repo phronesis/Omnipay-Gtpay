@@ -3,23 +3,77 @@ namespace Omnipay\Gtpay\Message;
 
 
 use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RequestInterface;
+
+
 
 class CompletePurchaseResponse extends AbstractResponse{
 
+    const CANCELED_GATEWAY_CODE = 'Z6';
+
+    const SUCCESS_CODE = '00';
+
+    private $isSuccessful = null;
+
+    private $validator;
+
+    public function __construct(RequestInterface $request, $data)
+    {
+        parent::__construct($request, $data);
+        $this->validator = new ResponseDataValidator($this);
+    }
+
     public function isSuccessful()
     {
-        return true;
+        if(!$this->isSuccessful){
+            $this->validator->validate();
+            $this->isSuccessful = $this->checkSuccessStatus();
+        }
+        return $this->isSuccessful;
+    }
+
+    private function checkSuccessStatus(){
+        return $this->hasSuccessCode($this->getCode());
     }
 
     public function getTransactionReference()
     {
-        return $this->data['MerchantReference'];
+        return isset($this->data['MerchantReference'])?$this->data['MerchantReference']:null;
     }
 
     public function getTransactionId()
     {
-        return $this->data['gtpay_tranx_id'];
+        return isset($this->data['gtpay_tranx_id'])?$this->data['gtpay_tranx_id']:null;
     }
 
+    public function getMessage()
+    {
+        if(!isset($this->data['gtpay_tranx_status_msg'])) return null;
+        return isset($this->data['ResponseDescription'])
+            ?$this->data['ResponseDescription']: $this->data['gtpay_tranx_status_msg'];
+    }
+
+    public function getCode()
+    {
+        if(!isset($this->data['gtpay_tranx_status_code'])) return null;
+        return isset($this->data['ResponseCode'])?$this->data['ResponseCode']:$this->data['gtpay_tranx_status_code'];
+    }
+
+    public function formatIntegerAmount($integerAmount){
+        return $this->getRequest()->getCurrency().' '.number_format($this->convertIntegerAmount($integerAmount),$this->getRequest()->getCurrencyDecimalPlaces());
+    }
+
+    public function convertIntegerAmount($integerAmount){
+        return $integerAmount/$this->getCurrencyDecimalFactor();
+    }
+
+    public function getCurrencyDecimalFactor()
+    {
+        return pow(10, $this->getRequest()->getCurrencyDecimalPlaces());
+    }
+
+    public function hasSuccessCode($statusCode){
+        return ResponseDataValidator::compareStrings($statusCode,self::SUCCESS_CODE);
+    }
 
 }
