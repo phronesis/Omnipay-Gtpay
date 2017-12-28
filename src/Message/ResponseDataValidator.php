@@ -76,6 +76,10 @@ class ResponseDataValidator {
             throw $this->determineException("Redirect Url is wrong.",$statusCode);
         }
 
+    }
+
+    public function successValidate(){
+
         if(isset($this->data['TransactionCurrency'])){
             if(!self::compareStrings($this->data['TransactionCurrency'],$this->request->getCurrency())){
                 throw new ValidationException("Transaction currency does not match expected currency.");
@@ -93,7 +97,6 @@ class ResponseDataValidator {
             );
         }
     }
-
 
     /**
      * Distinguishes between exceptions that have a failed status code from the gateway
@@ -113,10 +116,10 @@ class ResponseDataValidator {
     }
 
     public function getFullVerificationHash($statusCode){
-        $rawString = $this->request->getTransactionId().
-            $this->request->getAmountInteger().
+        $rawString = $this->response->getTransactionId().
+            $this->response->getGatewayAmountInteger().
             $statusCode.
-            $this->request->getCurrency().
+            $this->response->getGatewayNumericCurrency().
             $this->request->getHashKey();
         return hash('sha512',$rawString);
     }

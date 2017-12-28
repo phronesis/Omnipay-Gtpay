@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+"Amount": 0,
+"MerchantReference": "",
+"MertID": "17",
+"ResponseCode": "51",
+"ResponseDescription": "Insufficient Funds"
+}
