@@ -2,11 +2,9 @@
 namespace Omnipay\Gtpay\Tests;
 
 use Omnipay\Common\Exception\InvalidRequestException;
-use Omnipay\Common\Exception\InvalidResponseException;
 use Omnipay\Gtpay\Exception\FailedPaymentException;
 use Omnipay\Gtpay\Exception\ValidationException;
 use Omnipay\Gtpay\Gateway;
-use Omnipay\Gtpay\Message\CompletePurchaseRequest;
 use Omnipay\Gtpay\Message\CompletePurchaseResponse;
 use Omnipay\Gtpay\Message\Data;
 use Omnipay\Gtpay\Message\PurchaseResponse;
@@ -31,8 +29,8 @@ class GatewayTest extends GatewayTestCase{
             'gtpay_tranx_hash' => '30F0070926A0CAEDF77493DAD4E201F4C18D02317E3B3402CC6FE7900282B51557AA5027C6B32BC958823CD66D21AEAB2C59884D525A642B672EF91EB4D047B4',
             'gtpay_verification_hash' => '69033F0BE25FAE206EE9C55D1E477226564CA3151B82CF3BCA1E8E07F9FBDCBFC423FF1952FB20842087AA992F243918B1305DF6F7768A96EFEA86BF63DAE202',
             'gtpay_full_verification_hash' => '0ABBEE8521279BBB9E0748F4302CF9C7DD78419DD0925B64A1DE669B082117ACFE7631BEB7A5F5A387CB99B9269038C5379F365BC6F9C1166DFA9E9C7D882B88',
-            'gtpay_tranx_amt_small_denom' => '7000000',
-        ];
+            'gtpay_tranx_amt_small_denom' => '7000000'
+    ];
 
     const HASH_KEY = 'D3D1D05AFE42AD50818167EAC73C109168A0F108F32645C8B59E897FA930DA44F9230910DAC9E20641823799A107A02068F7BC0F4CC41D2952E249552255710F';
     private $transactionId = '00001513876649';
