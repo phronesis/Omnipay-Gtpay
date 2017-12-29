@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+/vendor/
+.idea
+.DS_Store
+/gtpay
+tests/coverage
+phpcbf.phar
+phpcs.phar
