@@ -3,11 +3,11 @@
 **Gtpay gateway for the Omnipay PHP payment processing library**
 
 
+[![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/phronesis/Omnipay-Gtpay/master.svg?style=flat-square)](https://travis-ci.org/phronesis/Omnipay-Gtpay)
-[![Coverage Status](https://coveralls.io/repos/phronesis/Omnipay-Gtpay/badge.svg?branch=master&service=github)](https://coveralls.io/github/phronesis/Omnipay-Gtpay?branch=master)
-[![Code Climate](https://codeclimate.com/github/phronesis/Omnipay-Gtpay/badges/gpa.svg)](https://codeclimate.com/github/phronesis/Omnipay-Gtpay)
-
+[![Build Status][ico-build]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
 
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
 processing library for PHP 5.3+. This package implements gtpay support for Omnipay.
@@ -106,6 +106,15 @@ If you discover any security related issues, please email umohdavid@gmail.com in
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
+[ico-scrutinizer]: https://scrutinizer-ci.com/g/phronesis/Omnipay-Gtpay/badges/coverage.png
+[ico-code-quality]: https://scrutinizer-ci.com/g/phronesis/Omnipay-Gtpay/badges/quality-score.png
+[ico-version]: https://img.shields.io/packagist/v/davidumoh/omnipay-gtpay.svg?style=flat-square
+[ico-build]: https://scrutinizer-ci.com/g/phronesis/Omnipay-Gtpay/badges/build.png
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 
+[link-packagist]: https://packagist.org/packages/davidumoh/omnipay-gtpay
+[link-travis]: https://travis-ci.org/phronesis/Omnipay-Gtpay
+[link-scrutinizer]: https://scrutinizer-ci.com/g/phronesis/omnipay-gtpay/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/phronesis/omnipay-gtpay
