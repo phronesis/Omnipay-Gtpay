@@ -5,7 +5,7 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
+[![Build Status][ico-build]][link-travis]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
@@ -108,10 +108,10 @@ If you discover any security related issues, please email umohdavid@gmail.com in
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/phronesis/Omnipay-Gtpay/.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/phronesis/Omnipay-Gtpay/.svg?style=flat-square
+[ico-scrutinizer]: https://scrutinizer-ci.com/g/phronesis/Omnipay-Gtpay/badges/coverage.png
+[ico-code-quality]: https://scrutinizer-ci.com/g/phronesis/Omnipay-Gtpay/badges/quality-score.png
 [ico-version]: https://img.shields.io/packagist/v/davidumoh/omnipay-gtpay.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/davidumoh/Omnipay-Gtpay/master.svg?style=flat-square
+[ico-build]: https://scrutinizer-ci.com/g/phronesis/Omnipay-Gtpay/badges/build.png
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/davidumoh/omnipay-gtpay
