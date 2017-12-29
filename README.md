@@ -4,9 +4,9 @@
 
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/phronesis/omnipay-gtpay/master.svg?style=flat-square)](https://travis-ci.org/phronesis/omnipay-gtpay)
-[![Coverage Status](https://coveralls.io/repos/phronesis/omnipay-gtpay/badge.svg?branch=master&service=github)](https://coveralls.io/github/phronesis/omnipay-gtpay?branch=master)
-[![Code Climate](https://codeclimate.com/github/phronesis/omnipay-gtpay/badges/gpa.svg)](https://codeclimate.com/github/phronesis/omnipay-gtpay)
+[![Build Status](https://img.shields.io/travis/phronesis/Omnipay-Gtpay/master.svg?style=flat-square)](https://travis-ci.org/phronesis/Omnipay-Gtpay)
+[![Coverage Status](https://coveralls.io/repos/phronesis/Omnipay-Gtpay/badge.svg?branch=master&service=github)](https://coveralls.io/github/phronesis/Omnipay-Gtpay?branch=master)
+[![Code Climate](https://codeclimate.com/github/phronesis/Omnipay-Gtpay/badges/gpa.svg)](https://codeclimate.com/github/phronesis/Omnipay-Gtpay)
 
 
 [Omnipay](https://github.com/thephpleague/omnipay) is a framework agnostic, multi-gateway payment
