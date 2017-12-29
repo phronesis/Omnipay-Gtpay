@@ -28,4 +28,4 @@ build:
                 command: 'vendor/bin/phpunit --coverage-clover=coverage'
                 coverage:
                     file: 'coverage'
-                    format: 'clover
+                    format: 'clover'
