@@ -91,7 +91,11 @@ class CompletePurchaseResponse extends AbstractResponse
 
     public function formatIntegerAmount($integerAmount)
     {
-        return $this->getRequest()->getCurrency().' '.number_format($this->convertIntegerAmount($integerAmount), $this->getRequest()->getCurrencyDecimalPlaces());
+        return $this->getRequest()->getCurrency()
+            .' '.number_format(
+                $this->convertIntegerAmount($integerAmount),
+                $this->getRequest()->getCurrencyDecimalPlaces()
+            );
     }
 
     public function convertIntegerAmount($integerAmount)

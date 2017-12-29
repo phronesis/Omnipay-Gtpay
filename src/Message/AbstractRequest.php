@@ -11,7 +11,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
      * Generates transaction ID. Payment methods with a different need can extend this
      * @return string  Transaction reference delivered
      */
-    static function generateTransactionId()
+    public static function generateTransactionId()
     {
         return str_pad(time(), 14, '0', STR_PAD_LEFT);
     }
@@ -51,7 +51,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     /**
      * [Optional Parameter]
-     * This describes the transaction to the customer. For example, gtpay_tranx_memo = "John Adebisi (REG13762) : 2nd Term School Fees Payment"
+     * This describes the transaction to the customer.
+     * For example, gtpay_tranx_memo = "John Adebisi (REG13762) : 2nd Term School Fees Payment"
      If not sent, "Purchasing from [Business-Name-Of-Merchant]" will be used
      * @param $memo
      * @return \Omnipay\Common\Message\AbstractRequest

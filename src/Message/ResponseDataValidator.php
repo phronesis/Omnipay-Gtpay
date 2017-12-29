@@ -30,7 +30,7 @@ class ResponseDataValidator
         return self::compareStrings($expectedRef, $returnedRef);
     }
 
-    static function compareStrings($one, $two)
+    public static function compareStrings($one, $two)
     {
         return strnatcasecmp($one, $two) === 0;
     }
@@ -63,15 +63,26 @@ class ResponseDataValidator
     {
         $statusCode = $this->data['gtpay_tranx_status_code'];
 
-        if (!$this->validateTransactionRef($this->request->getTransactionId(), $this->data['gtpay_tranx_id'])) {
-            throw $this->determineException(sprintf("Invalid Transaction ref: %s", $this->data['gtpay_tranx_id']), $statusCode);
+        if (!$this->validateTransactionRef(
+            $this->request->getTransactionId(),
+            $this->data['gtpay_tranx_id']
+        )
+        ) {
+            throw $this->determineException(sprintf(
+                "Invalid Transaction ref: %s",
+                $this->data['gtpay_tranx_id']
+            ), $statusCode);
         }
 
-        if (self::compareStrings(CompletePurchaseResponse::CANCELED_GATEWAY_CODE, $statusCode)) {
+        if (self::compareStrings(CompletePurchaseResponse::CANCELED_GATEWAY_CODE, $statusCode)
+        ) {
             throw $this->determineException("Customer Cancellation", $statusCode);
         }
 
-        if (!$this->verifyHashValue($this->data['gtpay_full_verification_hash'], $this->getFullVerificationHash($statusCode))) {
+        if (!$this->verifyHashValue(
+            $this->data['gtpay_full_verification_hash'],
+            $this->getFullVerificationHash($statusCode)
+        )) {
             $msg = "Data incompatibility reported. Please contact support";
             throw $this->determineException($msg, $statusCode);
         }
