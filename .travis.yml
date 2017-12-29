@@ -5,7 +5,6 @@ php:
   - 5.6
   - 7.0
   - 7.1
-  - 7.2
 
 # This triggers builds to run on the new TravisCI infrastructure.
 # See: http://docs.travis-ci.com/user/workers/container-based-infrastructure/
@@ -24,12 +23,6 @@ env:
 matrix:
   include:
     - php: 5.5
-    - php: 5.6
-      env: setup=lowest symfony="^2.1"
-    - php: 5.6
-    - env: setup=lowest symfony="^3"
-    - php: 7.1
-      env: setup=lowest symfony="^4"
 
 install:
   - if [[ $symfony != '*' ]]; then travis_retry composer require symfony/http-foundation:${symfony} --no-update --no-interaction; fi
