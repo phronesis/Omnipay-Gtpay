@@ -1,7 +1,8 @@
 <?php
 namespace Omnipay\Gtpay\Message;
 
-abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
+abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
+{
 
     const DEMO_WEBSERVICE_URL = "https://gtweb2.gtbank.com/GTPayService/gettransactionstatus.json";
     const LIVE_WEBSERVICE_URL = "https://ibank.gtbank.com/GTPayService/gettransactionstatus.json";
@@ -10,19 +11,22 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      * Generates transaction ID. Payment methods with a different need can extend this
      * @return string  Transaction reference delivered
      */
-    static function generateTransactionId() {
+    public static function generateTransactionId()
+    {
         return str_pad(time(), 14, '0', STR_PAD_LEFT);
     }
 
     /**
      * @return mixed
      */
-    public function getMerchantId(){
+    public function getMerchantId()
+    {
         return $this->getParameter(Data::MERCHANT_ID);
     }
 
-    public function setMerchantId($merchantId){
-        return $this->setParameter(Data::MERCHANT_ID,$merchantId);
+    public function setMerchantId($merchantId)
+    {
+        return $this->setParameter(Data::MERCHANT_ID, $merchantId);
     }
 
     /**
@@ -31,34 +35,39 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      * @param $customerId
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function setCustomerId($customerId){
-        return $this->setParameter(Data::CUSTOMER_ID,$customerId);
+    public function setCustomerId($customerId)
+    {
+        return $this->setParameter(Data::CUSTOMER_ID, $customerId);
     }
 
     /**
      * @see AbstractRequest::setCustomerId()
      * @return mixed
      */
-    public function getCustomerId(){
-       return $this->getParameter(Data::CUSTOMER_ID) ;
+    public function getCustomerId()
+    {
+        return $this->getParameter(Data::CUSTOMER_ID) ;
     }
 
     /**
      * [Optional Parameter]
-     * This describes the transaction to the customer. For example, gtpay_tranx_memo = "John Adebisi (REG13762) : 2nd Term School Fees Payment"
+     * This describes the transaction to the customer.
+     * For example, gtpay_tranx_memo = "John Adebisi (REG13762) : 2nd Term School Fees Payment"
      If not sent, "Purchasing from [Business-Name-Of-Merchant]" will be used
      * @param $memo
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function setTransactionMemo($memo){
-        return $this->setParameter(Data::TRANSACTION_MEMO,$memo);
+    public function setTransactionMemo($memo)
+    {
+        return $this->setParameter(Data::TRANSACTION_MEMO, $memo);
     }
 
     /**
      * @return mixed
      * @see AbstractRequest::setTransactionMemo()
      */
-    public function getTransactionMemo(){
+    public function getTransactionMemo()
+    {
         return $this->getParameter(Data::TRANSACTION_MEMO);
     }
 
@@ -68,15 +77,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      * @param $gateway
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function setGatewayName($gateway){
-        return $this->setParameter(Data::GATEWAY_NAME,$gateway);
+    public function setGatewayName($gateway)
+    {
+        return $this->setParameter(Data::GATEWAY_NAME, $gateway);
     }
 
     /**
      * @see AbstractRequest::setGatewayName()
      * @return mixed
      */
-    public function getGatewayName(){
+    public function getGatewayName()
+    {
         return $this->getParameter(Data::GATEWAY_NAME);
     }
 
@@ -85,19 +96,22 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      * @param $customerName
      * @return \Omnipay\Common\Message\AbstractRequest Returns a fluent Interface
      */
-    public function setCustomerName($customerName){
-       return $this->setParameter(Data::CUSTOMER_NAME,$customerName) ;
+    public function setCustomerName($customerName)
+    {
+        return $this->setParameter(Data::CUSTOMER_NAME, $customerName) ;
     }
 
     /**
      * @see AbstractRequest::getCustomerName()
      * @return mixed
      */
-    public function getCustomerName(){
+    public function getCustomerName()
+    {
         return $this->getParameter(Data::CUSTOMER_NAME);
     }
 
-    public function getTransactionHash(){
+    public function getTransactionHash()
+    {
         //gtpay_mert_id,gtpay_tranx_id,gtpay_tranx_amt,gtpay_tranx_curr,gtpay_cust_id,gtpay_tranx_noti_url,hash
 
         $rawString = $this->getMerchantId().
@@ -107,7 +121,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
             $this->getCustomerId().
             $this->getNotifyUrl().
             $this->getHashKey();
-        $hash = hash('sha512',$rawString);
+        $hash = hash('sha512', $rawString);
         return $hash;
     }
 
@@ -116,15 +130,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      * @param $hashKey
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function setHashKey($hashKey){
-        return $this->setParameter(Data::HASH_KEY,$hashKey);
+    public function setHashKey($hashKey)
+    {
+        return $this->setParameter(Data::HASH_KEY, $hashKey);
     }
 
     /**
      * @see Gateway::setHashKey()
      * @return mixed
      */
-    public function getHashKey(){
+    public function getHashKey()
+    {
         return $this->getParameter(Data::HASH_KEY);
     }
 
@@ -132,21 +148,22 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest{
      * @param $value
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function setGatewayFirst($value){
-        return $this->setParameter(Data::GATEWAY_FIRST,$value);
+    public function setGatewayFirst($value)
+    {
+        return $this->setParameter(Data::GATEWAY_FIRST, $value);
     }
 
     /**
      * @return mixed
      */
-    public function getGatewayFirst(){
+    public function getGatewayFirst()
+    {
         return $this->getParameter(Data::GATEWAY_FIRST);
     }
 
 
-    public function getWebserviceUrl(){
+    public function getWebserviceUrl()
+    {
         return $this->getTestMode()?self::DEMO_WEBSERVICE_URL:self::LIVE_WEBSERVICE_URL;
     }
-
-
 }

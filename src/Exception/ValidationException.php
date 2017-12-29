@@ -1,8 +1,7 @@
 <?php
 namespace Omnipay\Gtpay\Exception;
 
-
-
-class ValidationException extends GtpayException{
+class ValidationException extends GtpayException
+{
 
 }

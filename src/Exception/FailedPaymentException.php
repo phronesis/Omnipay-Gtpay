@@ -2,6 +2,7 @@
 
 namespace Omnipay\Gtpay\Exception;
 
-class FailedPaymentException extends GtpayException{
+class FailedPaymentException extends GtpayException
+{
 
 }
