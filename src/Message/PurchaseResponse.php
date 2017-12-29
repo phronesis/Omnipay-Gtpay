@@ -5,7 +5,8 @@ namespace Omnipay\Gtpay\Message;
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
-class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface{
+class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
+{
 
     const DEMO_REDIRECT_URL = "https://gtweb2.gtbank.com/GTPay/tranx.aspx";
 
@@ -28,13 +29,11 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
 
     public function getRedirectData()
     {
-       return $this->data;
+        return $this->data;
     }
 
     public function isRedirect()
     {
         return true;
     }
-
-
 }

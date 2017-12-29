@@ -5,7 +5,8 @@ namespace Omnipay\Gtpay;
 use Omnipay\Gtpay\Message\Data;
 use \Omnipay\Common\AbstractGateway;
 
-class Gateway extends AbstractGateway{
+class Gateway extends AbstractGateway
+{
 
     const GATEWAY_NAME = "Gtpay";
 
@@ -17,7 +18,7 @@ class Gateway extends AbstractGateway{
 
     public function getName()
     {
-       return self::GATEWAY_NAME;
+        return self::GATEWAY_NAME;
     }
 
     /**
@@ -26,8 +27,9 @@ class Gateway extends AbstractGateway{
      * @param $merchantId
      * @return $this
      */
-    public function setMerchantId($merchantId){
-        return $this->setParameter(Data::MERCHANT_ID,$merchantId);
+    public function setMerchantId($merchantId)
+    {
+        return $this->setParameter(Data::MERCHANT_ID, $merchantId);
     }
 
     /**
@@ -35,15 +37,17 @@ class Gateway extends AbstractGateway{
      * @param $hashKey
      * @return $this
      */
-    public function setHashKey($hashKey){
-        return $this->setParameter(Data::HASH_KEY,$hashKey);
+    public function setHashKey($hashKey)
+    {
+        return $this->setParameter(Data::HASH_KEY, $hashKey);
     }
 
     /**
      * @see Gateway::setHashKey()
      * @return mixed
      */
-    public function getHashKey(){
+    public function getHashKey()
+    {
         return $this->getParameter(Data::HASH_KEY);
     }
 
@@ -62,7 +66,8 @@ class Gateway extends AbstractGateway{
      * @see Gateway::setMerchantId()
      * @return mixed
      */
-    public function getMerchantId(){
+    public function getMerchantId()
+    {
         return $this->getParameter(Data::MERCHANT_ID);
     }
 
@@ -74,15 +79,17 @@ class Gateway extends AbstractGateway{
      * @param $gateway
      * @return $this
      */
-    public function setGatewayName($gateway){
-        return $this->setParameter(Data::GATEWAY_NAME,$gateway);
+    public function setGatewayName($gateway)
+    {
+        return $this->setParameter(Data::GATEWAY_NAME, $gateway);
     }
 
     /**
      * @see Gateway::setGatewayName()
      * @return mixed
      */
-    public function getGatewayName(){
+    public function getGatewayName()
+    {
         return $this->getParameter(Data::GATEWAY_NAME);
     }
 
@@ -90,11 +97,13 @@ class Gateway extends AbstractGateway{
      * @param $value
      * @return $this
      */
-    public function setGatewayFirst($value){
-        return $this->setParameter(Data::GATEWAY_FIRST,$value);
+    public function setGatewayFirst($value)
+    {
+        return $this->setParameter(Data::GATEWAY_FIRST, $value);
     }
 
-    public function getGatewayFirst(){
+    public function getGatewayFirst()
+    {
         return $this->getParameter(Data::GATEWAY_FIRST);
     }
 
@@ -105,13 +114,12 @@ class Gateway extends AbstractGateway{
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Gtpay\Message\PurchaseRequest',$parameters);
+        return $this->createRequest('\Omnipay\Gtpay\Message\PurchaseRequest', $parameters);
     }
 
 
     public function completePurchase(array $options = array())
     {
-        return $this->createRequest('\Omnipay\Gtpay\Message\CompletePurchaseRequest',$options);
+        return $this->createRequest('\Omnipay\Gtpay\Message\CompletePurchaseRequest', $options);
     }
-
 }

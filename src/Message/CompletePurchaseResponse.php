@@ -1,13 +1,11 @@
 <?php
 namespace Omnipay\Gtpay\Message;
 
-
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 
-
-
-class CompletePurchaseResponse extends AbstractResponse{
+class CompletePurchaseResponse extends AbstractResponse
+{
 
     const CANCELED_GATEWAY_CODE = 'Z6';
 
@@ -25,17 +23,18 @@ class CompletePurchaseResponse extends AbstractResponse{
 
     public function isSuccessful()
     {
-        if(is_null($this->isSuccessful)){
+        if (is_null($this->isSuccessful)) {
             $this->validator->validate();
             $this->isSuccessful = $this->checkSuccessStatus();
-            if($this->isSuccessful()){
+            if ($this->isSuccessful()) {
                 $this->validator->successValidate();
             }
         }
         return $this->isSuccessful;
     }
 
-    private function checkSuccessStatus(){
+    private function checkSuccessStatus()
+    {
         return $this->hasSuccessCode($this->getCode());
     }
 
@@ -51,26 +50,33 @@ class CompletePurchaseResponse extends AbstractResponse{
 
     public function getMessage()
     {
-        if(!isset($this->data['gtpay_tranx_status_msg'])) return null;
+        if (!isset($this->data['gtpay_tranx_status_msg'])) {
+            return null;
+        }
         return isset($this->data['ResponseDescription'])
             ?$this->data['ResponseDescription']: $this->data['gtpay_tranx_status_msg'];
     }
 
     public function getCode()
     {
-        if(!isset($this->data['gtpay_tranx_status_code'])) return null;
+        if (!isset($this->data['gtpay_tranx_status_code'])) {
+            return null;
+        }
         return isset($this->data['ResponseCode'])?$this->data['ResponseCode']:$this->data['gtpay_tranx_status_code'];
     }
 
-    public function getGatewayAmount(){
-       return isset($this->data['gtpay_tranx_amt'])? $this->data['gtpay_tranx_amt']:null;
+    public function getGatewayAmount()
+    {
+        return isset($this->data['gtpay_tranx_amt'])? $this->data['gtpay_tranx_amt']:null;
     }
 
-    public function getGatewayAmountInteger(){
+    public function getGatewayAmountInteger()
+    {
         return isset($this->data['gtpay_tranx_amt_small_denom'])?$this->data['gtpay_tranx_amt_small_denom']:null;
     }
 
-    public function getApprovedAmount(){
+    public function getApprovedAmount()
+    {
         return isset($this->data['Amount'])?$this->data['Amount']:0;
     }
 
@@ -78,15 +84,18 @@ class CompletePurchaseResponse extends AbstractResponse{
      * Get currency returned from gateway
      * @return null
      */
-    public function getGatewayNumericCurrency(){
+    public function getGatewayNumericCurrency()
+    {
         return isset($this->data['gtpay_tranx_curr'])?$this->data['gtpay_tranx_curr']:null;
     }
 
-    public function formatIntegerAmount($integerAmount){
-        return $this->getRequest()->getCurrency().' '.number_format($this->convertIntegerAmount($integerAmount),$this->getRequest()->getCurrencyDecimalPlaces());
+    public function formatIntegerAmount($integerAmount)
+    {
+        return $this->getRequest()->getCurrency().' '.number_format($this->convertIntegerAmount($integerAmount), $this->getRequest()->getCurrencyDecimalPlaces());
     }
 
-    public function convertIntegerAmount($integerAmount){
+    public function convertIntegerAmount($integerAmount)
+    {
         return $integerAmount/$this->getCurrencyDecimalFactor();
     }
 
@@ -95,8 +104,8 @@ class CompletePurchaseResponse extends AbstractResponse{
         return pow(10, $this->getRequest()->getCurrencyDecimalPlaces());
     }
 
-    public function hasSuccessCode($statusCode){
-        return ResponseDataValidator::compareStrings($statusCode,self::SUCCESS_CODE);
+    public function hasSuccessCode($statusCode)
+    {
+        return ResponseDataValidator::compareStrings($statusCode, self::SUCCESS_CODE);
     }
-
 }

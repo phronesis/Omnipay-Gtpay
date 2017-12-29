@@ -1,7 +1,8 @@
 <?php
 namespace Omnipay\Gtpay\Message;
 
-class Data {
+class Data
+{
 
 
     const MERCHANT_ID = 'merchant_id';
@@ -29,9 +30,4 @@ class Data {
     const GATEWAY_NAME = 'gateway_name';
 
     const HASH_KEY = 'hash_key';
-
-
-
-
 }
-

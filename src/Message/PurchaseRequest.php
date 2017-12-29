@@ -1,7 +1,8 @@
 <?php
 namespace Omnipay\Gtpay\Message;
 
-class PurchaseRequest extends AbstractRequest{
+class PurchaseRequest extends AbstractRequest
+{
 
     public function getData()
     {
@@ -18,18 +19,16 @@ class PurchaseRequest extends AbstractRequest{
 
         ];
 
-        if($this->getGatewayName()){
+        if ($this->getGatewayName()) {
             $data["gtpay_gway_name"] = $this->getGatewayName();
         }
 
         return $data;
-
     }
 
 
     public function sendData($data)
     {
-        return new PurchaseResponse($this,$data);
+        return new PurchaseResponse($this, $data);
     }
-
 }
